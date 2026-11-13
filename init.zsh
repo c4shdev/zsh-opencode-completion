@@ -26,20 +26,23 @@ command -v opencode &>/dev/null && {
   alias oc='opencode'
   alias ocu='opencode upgrade'
 
-  # `oc` shares opencode's completion, but compdef only exists once compinit
-  # has run — and this module loads before it. Bind on the first prompt, and
-  # keep retrying until it actually takes.
+  # Register this module's completion. compdef only exists once compinit has
+  # run, and this module loads before it, so bind on the first prompt and keep
+  # retrying until it takes. Registering `opencode` as well as `oc` repairs a
+  # stale zcompdump that never picked up the completion function.
   # shellcheck disable=SC2154,SC2296 # compdef, the functions array and ${(@)} are zsh builtins.
-  _opencode_bind_oc() {
-    if (( $+functions[compdef] )) && compdef _opencode oc 2>/dev/null &&
-      (( $+_comps[oc] )); then
-      precmd_functions=("${(@)precmd_functions:#_opencode_bind_oc}")
+  _opencode_bind_completion() {
+    if (( $+functions[compdef] )); then
+      compdef _opencode opencode oc 2>/dev/null
+    fi
+    if (( $+_comps[oc] && $+_comps[opencode] )); then
+      precmd_functions=("${(@)precmd_functions:#_opencode_bind_completion}")
     fi
     return 0
   }
   if (( $+functions[compdef] )); then
-    _opencode_bind_oc
+    _opencode_bind_completion
   else
-    precmd_functions+=( _opencode_bind_oc )
+    precmd_functions+=( _opencode_bind_completion )
   fi
 }
