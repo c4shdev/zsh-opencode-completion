@@ -14,8 +14,10 @@ _opencode_compfile="${${(%):-%x}:A:h}/functions/_opencode"
 _opencode_bin="${OPENCODE_BIN:-${HOME}/.opencode/bin}/opencode"
 if [[ -x "$_opencode_bin" ]]; then
   [[ -d "${_opencode_compfile:h}" ]] || mkdir -p "${_opencode_compfile:h}"
-  if [[ ! -f "$_opencode_compfile" || "$_opencode_bin" -nt "$_opencode_compfile" ]]; then
-    "$_opencode_bin" completion zsh >! "$_opencode_compfile" 2>/dev/null
+  if [[ ! -f "$_opencode_compfile" || "$_opencode_bin" -nt "$_opencode_compfile" ||
+        "$(<"$_opencode_compfile")" != '#compdef opencode'* ]]; then
+    "$_opencode_bin" --completions zsh >! "$_opencode_compfile" 2>/dev/null ||
+      "$_opencode_bin" completion zsh >! "$_opencode_compfile" 2>/dev/null
   fi
 fi
 unset _opencode_bin _opencode_compfile

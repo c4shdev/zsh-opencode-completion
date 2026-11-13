@@ -1,0 +1,4 @@
+# shellcheck config for zsh scripts analyzed with bash rules.
+# zsh-only syntax (e.g. ${(%):-%x}, :A, :h) is annotated inline with
+# `# shellcheck disable=...` directives.
+shell=bash

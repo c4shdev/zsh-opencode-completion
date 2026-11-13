@@ -4,7 +4,7 @@ Plugin/módulo zsh que encapsula aliases y tab completions del CLI de OpenCode. 
 
 ## Características
 
-- 🚀 **Alto rendimiento**: usa `mtime check` (no `--version`) para invalidación de cache. Costo en shell startup: ~3ms (stat) vs ~600ms (regeneración completa).
+- 🚀 **Alto rendimiento**: usa `mtime check` (no `--version`) para invalidación de cache, más un guard de contenido que detecta un cache corrupto. Costo en shell startup: ~3ms (stat) vs ~600ms (regeneración completa).
 - 🎯 **Aliases curados**: 11 aliases de los más útiles (no la lista completa).
 - 🔌 **Multi-manager**: estructura idiomática compatible con Zimfw (sin flags), oh-my-zsh y standalone.
 - 🪶 **Cero dependencias externas**: sólo requiere el binario `opencode` instalado.
@@ -96,9 +96,10 @@ source ~/.local/share/zsh-opencode/zsh-opencode.plugin.zsh
 
 ## Cómo funciona la completion lazy
 
-1. Primer shell start: el módulo genera `_opencode` ejecutando `opencode completion zsh` (~600ms una vez).
+1. Primer shell start: el módulo genera `_opencode` ejecutando `opencode --completions zsh` (~600ms una vez).
 2. Shells subsiguientes: comparamos `mtime` del binario vs el cache. Si el binario no cambió, no se regenera.
 3. Cuando actualizas opencode (`ocu` o `brew upgrade`): el binario es más nuevo que el cache, se regenera.
+4. Si el cache no empieza por `#compdef opencode` (generado por una versión previa del CLI, o interrumpido a medias), se regenera automáticamente aunque el `mtime` sea válido.
 
 ## Orden de carga
 
