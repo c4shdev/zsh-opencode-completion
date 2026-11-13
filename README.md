@@ -5,7 +5,7 @@ Plugin/módulo zsh que encapsula aliases y tab completions del CLI de OpenCode. 
 ## Características
 
 - 🚀 **Alto rendimiento**: usa `mtime check` (no `--version`) para invalidación de cache, más un guard de contenido que detecta un cache corrupto. Costo en shell startup: ~3ms (stat) vs ~600ms (regeneración completa).
-- 🎯 **Aliases curados**: 11 aliases de los más útiles (no la lista completa).
+- 🎯 **Aliases mínimos**: 2 aliases. El resto de subcomandos se alcanza con `oc <subcomando>` y se autocompletan con TAB.
 - 🔌 **Multi-manager**: estructura idiomática compatible con Zimfw (sin flags), oh-my-zsh y standalone.
 - 🪶 **Cero dependencias externas**: sólo requiere el binario `opencode` instalado.
 
@@ -79,16 +79,9 @@ source ~/.local/share/zsh-opencode/zsh-opencode.plugin.zsh
 | Alias | Comando |
 |---|---|
 | `oc` | `opencode` |
-| `ocr` | `opencode run` |
-| `ocw` | `opencode web` |
-| `ocs` | `opencode serve` |
-| `oca` | `opencode attach` |
 | `ocu` | `opencode upgrade` |
-| `ocm` | `opencode models` |
-| `ocst` | `opencode stats` |
-| `ocp` | `opencode providers` |
-| `ocpr` | `opencode pr` |
-| `ocses` | `opencode session` |
+
+`oc` comparte la completion de `opencode`: `oc <TAB>` lista los subcomandos y `oc s<TAB>` completa `session`, `serve`, `stats`… No hay alias por subcomando porque cada versión del CLI renombra sus subcomandos y los aliases se quedan apuntando a comandos que ya no existen.
 
 ## Configuración
 

@@ -28,7 +28,7 @@ Do not edit `functions/_opencode` by hand. It is regenerated from `opencode --co
 
 ## Adding an alias
 
-This module intentionally exposes a small, curated set of aliases (currently 11) rather than wrapping every subcommand. Before proposing a new one, check:
+This module intentionally exposes a minimal set of aliases (currently 2: `oc` and `ocu`) rather than wrapping every subcommand — subcommands are reached via `oc <subcommand>` and completed with TAB. Before proposing a new one, check:
 
 - Is it shorter than the underlying command in a way that pays off daily?
 - Does it match a workflow most users hit often (avoid rarely-used subcommands)?

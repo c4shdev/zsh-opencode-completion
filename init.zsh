@@ -24,14 +24,19 @@ unset _opencode_bin _opencode_compfile
 
 command -v opencode &>/dev/null && {
   alias oc='opencode'
-  alias ocr='opencode run'
-  alias ocw='opencode web'
-  alias ocs='opencode serve'
-  alias oca='opencode attach'
   alias ocu='opencode upgrade'
-  alias ocm='opencode models'
-  alias ocst='opencode stats'
-  alias ocp='opencode providers'
-  alias ocpr='opencode pr'
-  alias ocses='opencode session'
+
+  # `oc` shares opencode's completion, but compdef only exists once compinit
+  # has run — and this module loads before it. Bind on the first prompt.
+  # shellcheck disable=SC2154,SC2296 # compdef, the functions array and ${(@)} are zsh builtins.
+  _opencode_bind_oc() {
+    precmd_functions=("${(@)precmd_functions:#_opencode_bind_oc}")
+    (( $+functions[compdef] )) && compdef _opencode oc
+    return 0
+  }
+  if (( $+functions[compdef] )); then
+    _opencode_bind_oc
+  else
+    precmd_functions+=( _opencode_bind_oc )
+  fi
 }
