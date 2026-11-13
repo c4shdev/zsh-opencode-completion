@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for considering a contribution to `zsh-opencode`.
+Thanks for considering a contribution to `zsh-opencode-completion`.
 
 ## Reporting a bug
 
@@ -18,8 +18,8 @@ If the bug is about completion, also mention whether `~/.zsh-completion/_opencod
 1. Fork and create a feature branch.
 2. Before pushing, run locally:
    ```sh
-   shellcheck init.zsh zsh-opencode.plugin.zsh
-   zsh -n init.zsh && zsh -n zsh-opencode.plugin.zsh
+   shellcheck init.zsh zsh-opencode-completion.plugin.zsh
+   zsh -n init.zsh && zsh -n zsh-opencode-completion.plugin.zsh
    ```
    Both must exit 0. CI runs the same checks on every PR.
 3. Open the PR against `main`.

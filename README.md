@@ -1,4 +1,4 @@
-# zsh-opencode
+# zsh-opencode-completion
 
 Plugin/módulo zsh que encapsula aliases y tab completions del CLI de OpenCode. Compatible con Zimfw, oh-my-zsh y standalone.
 
@@ -12,13 +12,13 @@ Plugin/módulo zsh que encapsula aliases y tab completions del CLI de OpenCode. 
 ## Estructura del módulo
 
 ```
-zsh-opencode/
+zsh-opencode-completion/
 ├── LICENSE
 ├── README.md
-├── init.zsh                       # entry point (Zimfw default source)
-├── zsh-opencode.plugin.zsh        # shim para oh-my-zsh y standalone
+├── init.zsh                                 # entry point (Zimfw default source)
+├── zsh-opencode-completion.plugin.zsh       # shim para oh-my-zsh y standalone
 └── functions/
-    └── _opencode                  # completion (auto-descubierto vía fpath)
+    └── _opencode                            # completion (auto-descubierto vía fpath)
 ```
 
 ## Instalación
@@ -28,7 +28,7 @@ zsh-opencode/
 Añadir a `~/.zimrc`, **antes** del módulo `completion`:
 
 ```zsh
-zmodule c4shdev/zsh-opencode
+zmodule c4shdev/zsh-opencode-completion
 zmodule completion
 ```
 
@@ -49,13 +49,13 @@ exec zsh
 Clonar como plugin:
 
 ```bash
-git clone https://github.com/c4shdev/zsh-opencode ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-opencode
+git clone https://github.com/c4shdev/zsh-opencode-completion ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-opencode-completion
 ```
 
 Añadir a `~/.zshrc`:
 
 ```zsh
-plugins=(... zsh-opencode)
+plugins=(... zsh-opencode-completion)
 ```
 
 `compinit` de oh-my-zsh añade automáticamente el directorio del plugin a `fpath`, por lo que `_opencode` se descubre vía `functions/`.
@@ -63,15 +63,15 @@ plugins=(... zsh-opencode)
 ### Standalone
 
 ```bash
-git clone https://github.com/c4shdev/zsh-opencode ~/.local/share/zsh-opencode
+git clone https://github.com/c4shdev/zsh-opencode-completion ~/.local/share/zsh-opencode-completion
 ```
 
 En `~/.zshrc`, **antes** de `compinit`:
 
 ```zsh
-fpath=(~/.local/share/zsh-opencode/functions $fpath)
+fpath=(~/.local/share/zsh-opencode-completion/functions $fpath)
 autoload -Uz compinit && compinit
-source ~/.local/share/zsh-opencode/zsh-opencode.plugin.zsh
+source ~/.local/share/zsh-opencode-completion/zsh-opencode-completion.plugin.zsh
 ```
 
 ## Aliases
@@ -98,8 +98,8 @@ source ~/.local/share/zsh-opencode/zsh-opencode.plugin.zsh
 
 El módulo **debe** inicializarse **antes** de `compinit`. Esto asegura que la completion regenerada esté disponible cuando `compinit` la lea:
 
-- **Zimfw**: declarar `zmodule c4shdev/zsh-opencode` antes de `zmodule completion`.
-- **oh-my-zsh**: el orden de `plugins=(...)` define el orden; `zsh-opencode` debe aparecer antes que cualquier plugin que use completion (prácticamente todos).
+- **Zimfw**: declarar `zmodule c4shdev/zsh-opencode-completion` antes de `zmodule completion`.
+- **oh-my-zsh**: el orden de `plugins=(...)` define el orden; `zsh-opencode-completion` debe aparecer antes que cualquier plugin que use completion (prácticamente todos).
 - **Standalone**: `source` antes de `compinit`.
 
 ## Licencia

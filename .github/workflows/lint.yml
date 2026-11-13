@@ -19,9 +19,9 @@ jobs:
           sudo apt-get install -y shellcheck zsh
 
       - name: shellcheck
-        run: shellcheck init.zsh zsh-opencode.plugin.zsh
+        run: shellcheck init.zsh zsh-opencode-completion.plugin.zsh
 
       - name: zsh syntax check
         run: |
           zsh -n init.zsh
-          zsh -n zsh-opencode.plugin.zsh
+          zsh -n zsh-opencode-completion.plugin.zsh
