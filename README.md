@@ -81,7 +81,7 @@ source ~/.local/share/zsh-opencode/zsh-opencode.plugin.zsh
 | `oc` | `opencode` |
 | `ocu` | `opencode upgrade` |
 
-`oc` comparte la completion de `opencode`: `oc <TAB>` lista los subcomandos y `oc s<TAB>` completa `session`, `serve`, `stats`… No hay alias por subcomando porque cada versión del CLI renombra sus subcomandos y los aliases se quedan apuntando a comandos que ya no existen.
+`oc` comparte la completion de `opencode`: `oc <TAB>` lista los subcomandos y `oc s<TAB>` completa `serve`, `service`, `session` y `stats`. No hay alias por subcomando porque opencode v2 renombró o eliminó la mayoría de ellos, y los aliases se quedaban apuntando a comandos que ya no existen.
 
 ## Configuración
 
