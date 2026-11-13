@@ -4,11 +4,12 @@
 if ! command -v opencode &>/dev/null; then
   _opencode_bin_dir="${OPENCODE_BIN:-${HOME}/.opencode/bin}"
   if [[ -d "$_opencode_bin_dir" && ":$PATH:" != *":${_opencode_bin_dir}:"* ]]; then
-    path=("$_opencode_bin_dir" $path)
+    path=("$_opencode_bin_dir" "${path[@]}")
   fi
   unset _opencode_bin_dir
 fi
 
+# shellcheck disable=SC2296,SC2298 # ${(%):-%x} is the zsh idiom for the sourced script path; no bash equivalent.
 _opencode_compfile="${${(%):-%x}:A:h}/functions/_opencode"
 _opencode_bin="${OPENCODE_BIN:-${HOME}/.opencode/bin}/opencode"
 if [[ -x "$_opencode_bin" ]]; then
