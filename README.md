@@ -1,11 +1,11 @@
 # zsh-opencode-completion
 
-Plugin/módulo zsh que encapsula aliases y tab completions del CLI de OpenCode. Compatible con Zimfw, oh-my-zsh y standalone.
+Plugin/módulo zsh que provee la tab completion del CLI de OpenCode. Compatible con Zimfw, oh-my-zsh y standalone.
 
 ## Características
 
-- 🚀 **Alto rendimiento**: usa `mtime check` (no `--version`) para invalidación de cache, más un guard de contenido que detecta un cache corrupto. Costo en shell startup: ~3ms (stat) vs ~600ms (regeneración completa).
-- 🎯 **Aliases mínimos**: 2 aliases. El resto de subcomandos se alcanza con `oc <subcomando>` y se autocompletan con TAB.
+- 🚀 **Alto rendimiento**: usa `mtime check` (no `--version`) para invalidación de cache, más un guard de contenido que detecta un cache corrupto. Costo en shell startup: ~0.7ms (stat) vs ~600ms (regeneración completa).
+- 🎯 **Sin aliases**: el módulo no define ningún alias, sólo registra la completion. Los atajos (`oc`, `ocu`) van en tu propia configuración de shell.
 - 🔌 **Multi-manager**: estructura idiomática compatible con Zimfw (sin flags), oh-my-zsh y standalone.
 - 🪶 **Cero dependencias externas**: sólo requiere el binario `opencode` instalado.
 
@@ -76,12 +76,15 @@ source ~/.local/share/zsh-opencode-completion/zsh-opencode-completion.plugin.zsh
 
 ## Aliases
 
-| Alias | Comando |
-|---|---|
-| `oc` | `opencode` |
-| `ocu` | `opencode upgrade` |
+Este módulo **no define aliases**. Los atajos son configuración de shell y van en tu propio archivo de aliases:
 
-`oc` comparte la completion de `opencode`: `oc <TAB>` lista los subcomandos y `oc s<TAB>` completa `serve`, `service`, `session` y `stats`. No hay alias por subcomando porque opencode v2 renombró o eliminó la mayoría de ellos, y los aliases se quedaban apuntando a comandos que ya no existen.
+```zsh
+# --- OpenCode ---
+alias oc='opencode'
+alias ocu='opencode upgrade'
+```
+
+La completion se registra para `opencode` y también para `oc`, así que `oc <TAB>` lista los subcomandos y `oc s<TAB>` completa `serve`, `service`, `session` y `stats` sin configuración adicional.
 
 ## Configuración
 
@@ -91,7 +94,7 @@ source ~/.local/share/zsh-opencode-completion/zsh-opencode-completion.plugin.zsh
 
 1. Primer shell start: el módulo genera `_opencode` ejecutando `opencode --completions zsh` (~600ms una vez).
 2. Shells subsiguientes: comparamos `mtime` del binario vs el cache. Si el binario no cambió, no se regenera.
-3. Cuando actualizas opencode (`ocu` o `brew upgrade`): el binario es más nuevo que el cache, se regenera.
+3. Cuando actualizas opencode (`opencode upgrade` o `brew upgrade`): el binario es más nuevo que el cache, se regenera.
 4. Si el cache no empieza por `#compdef opencode` (generado por una versión previa del CLI, o interrumpido a medias), se regenera automáticamente aunque el `mtime` sea válido.
 
 ## Orden de carga

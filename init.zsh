@@ -1,6 +1,11 @@
 #!/usr/bin/env zsh
 # init.zsh — core (Zimfw auto-source; omz/standalone via .plugin.zsh).
+#
+# This module provides the tab completion for the OpenCode CLI. It defines no
+# aliases: those belong in the user's own shell configuration.
 
+# Locate the binary. If it is not on PATH, add its directory so the completion
+# can be generated from it.
 if ! command -v opencode &>/dev/null; then
   _opencode_bin_dir="${OPENCODE_BIN:-${HOME}/.opencode/bin}"
   if [[ -d "$_opencode_bin_dir" && ":$PATH:" != *":${_opencode_bin_dir}:"* ]]; then
@@ -16,20 +21,17 @@ if [[ -x "$_opencode_bin" ]]; then
   [[ -d "${_opencode_compfile:h}" ]] || mkdir -p "${_opencode_compfile:h}"
   if [[ ! -f "$_opencode_compfile" || "$_opencode_bin" -nt "$_opencode_compfile" ||
         "$(<"$_opencode_compfile")" != '#compdef opencode'* ]]; then
-    "$_opencode_bin" --completions zsh >! "$_opencode_compfile" 2>/dev/null ||
-      "$_opencode_bin" completion zsh >! "$_opencode_compfile" 2>/dev/null
+    "$_opencode_bin" --completions zsh >! "$_opencode_compfile" 2>/dev/null
   fi
 fi
 unset _opencode_bin _opencode_compfile
 
 command -v opencode &>/dev/null && {
-  alias oc='opencode'
-  alias ocu='opencode upgrade'
-
   # Register this module's completion. compdef only exists once compinit has
   # run, and this module loads before it, so bind on the first prompt and keep
   # retrying until it takes. Registering `opencode` as well as `oc` repairs a
-  # stale zcompdump that never picked up the completion function.
+  # stale zcompdump that never picked up the completion function, and gives the
+  # conventional `oc` shortname the same completion to users who alias it.
   # shellcheck disable=SC2154,SC2296 # compdef, the functions array and ${(@)} are zsh builtins.
   _opencode_bind_completion() {
     if (( $+functions[compdef] )); then
